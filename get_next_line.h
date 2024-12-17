@@ -6,7 +6,7 @@
 /*   By: haruki <haruki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:53:13 by haruki            #+#    #+#             */
-/*   Updated: 2024/12/17 11:27:37 by haruki           ###   ########.fr       */
+/*   Updated: 2024/12/17 12:13:37 by haruki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ char	*get_line_from_buffer(char *line, int fd);
 int		find_newline(char *line);
 char	*get_first_line(char *line);
 char	*update_line(char *line);
+char	*ft_strdup(char *s);
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42

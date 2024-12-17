@@ -6,7 +6,7 @@
 /*   By: haruki <haruki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:53:20 by haruki            #+#    #+#             */
-/*   Updated: 2024/12/17 11:58:24 by haruki           ###   ########.fr       */
+/*   Updated: 2024/12/17 12:34:36 by haruki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ char	*get_line_from_buffer(char *line, int fd)
 	if (buffer == NULL)
 		return (NULL);
 	result = read(fd, buffer, BUFFER_SIZE);
-	buffer[result] = '\0';
 	if (result < 0)
 	{
 		free(buffer);
@@ -30,8 +29,11 @@ char	*get_line_from_buffer(char *line, int fd)
 	else if (result == 0)
 	{
 		free(buffer);
+		if (line == NULL)
+			return (NULL);
 		return (0);
 	}
+	buffer[result] = '\0';
 	line = ft_strjoin(line, buffer);
 	free(buffer);
 	if (line == NULL)
@@ -64,9 +66,9 @@ char	*get_first_line(char *line)
 	while (line[i] != '\0' && line[i] != '\n')
 		i++;
 	if (line[i] == '\0')
-		return (line);
+		return (ft_strdup(line));
 	else if ((line[i] == '\n' && line[i + 1] == '\0'))
-		return (line);
+		return (ft_strdup(line));
 	first_line = (char *)malloc(sizeof(char) * (i + 2));
 	if (first_line == NULL)
 		return (NULL);

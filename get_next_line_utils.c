@@ -6,7 +6,7 @@
 /*   By: haruki <haruki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:53:16 by haruki            #+#    #+#             */
-/*   Updated: 2024/12/17 11:40:13 by haruki           ###   ########.fr       */
+/*   Updated: 2024/12/17 12:14:01 by haruki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	size_t	index;
 
     if(s1 == NULL)
-        return s2;
+        return ft_strdup(s2);
 	i = 0;
 	ptr = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (ptr == NULL)
@@ -51,4 +51,21 @@ char	*ft_strjoin(char *s1, char *s2)
 	ptr[i] = '\0';
 	free(s1);
 	return (ptr);
+}
+char *ft_strdup(char *s)
+{
+    char *ptr;
+    size_t i;
+
+    i = 0;
+    ptr = malloc(ft_strlen(s) + 1);
+    if(ptr == NULL)
+        return NULL;
+    while(s[i] != '\0')
+    {
+        ptr[i] = s[i];
+        i++;
+    }
+    ptr[i] = '\0';
+    return ptr;
 }
