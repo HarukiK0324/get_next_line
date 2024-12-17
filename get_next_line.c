@@ -6,7 +6,7 @@
 /*   By: haruki <haruki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:53:20 by haruki            #+#    #+#             */
-/*   Updated: 2024/12/17 11:27:29 by haruki           ###   ########.fr       */
+/*   Updated: 2024/12/17 11:58:24 by haruki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,11 @@ char	*get_line_from_buffer(char *line, int fd)
 	char	*buffer;
 	int		result;
 
-	buffer = (char *)malloc(BUFFER_SIZE);
+	buffer = (char *)malloc(BUFFER_SIZE + 1);
 	if (buffer == NULL)
 		return (NULL);
 	result = read(fd, buffer, BUFFER_SIZE);
+	buffer[result] = '\0';
 	if (result < 0)
 	{
 		free(buffer);
@@ -62,7 +63,9 @@ char	*get_first_line(char *line)
 	i = 0;
 	while (line[i] != '\0' && line[i] != '\n')
 		i++;
-	if (line[i] == '\0' || (line[i] == '\n' && line[i + 1] == '\0'))
+	if (line[i] == '\0')
+		return (line);
+	else if ((line[i] == '\n' && line[i + 1] == '\0'))
 		return (line);
 	first_line = (char *)malloc(sizeof(char) * (i + 2));
 	if (first_line == NULL)
@@ -88,13 +91,15 @@ char	*update_line(char *line)
 	j = 0;
 	while (line[i] != '\n')
 		i++;
-	new_line = (char *)malloc(ft_strlen(line) - i);
+	i++;
+	new_line = (char *)malloc(ft_strlen(line) - i + 1);
 	if (new_line == NULL)
 		return (NULL);
 	while (line[i] != '\0')
 	{
 		new_line[j] = line[i];
 		i++;
+		j++;
 	}
 	new_line[j] = '\0';
 	free(line);
