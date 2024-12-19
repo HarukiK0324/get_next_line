@@ -6,13 +6,13 @@
 /*   By: haruki <haruki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:53:20 by haruki            #+#    #+#             */
-/*   Updated: 2024/12/17 12:34:36 by haruki           ###   ########.fr       */
+/*   Updated: 2024/12/19 15:44:27 by haruki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*get_line_from_buffer(char *line, int fd)
+char	*get_line_from_buffer(char *line, int *fd)
 {
 	char	*buffer;
 	int		result;
@@ -20,7 +20,7 @@ char	*get_line_from_buffer(char *line, int fd)
 	buffer = (char *)malloc(BUFFER_SIZE + 1);
 	if (buffer == NULL)
 		return (NULL);
-	result = read(fd, buffer, BUFFER_SIZE);
+	result = read(*fd, buffer, BUFFER_SIZE);
 	if (result < 0)
 	{
 		free(buffer);
@@ -31,11 +31,11 @@ char	*get_line_from_buffer(char *line, int fd)
 		free(buffer);
 		if (line == NULL)
 			return (NULL);
-		return (0);
+		*fd = -1;
+		return (line);
 	}
 	buffer[result] = '\0';
 	line = ft_strjoin(line, buffer);
-	free(buffer);
 	if (line == NULL)
 		return (NULL);
 	return (line);
@@ -117,10 +117,10 @@ char	*get_next_line(int fd)
 		return (NULL);
 	while (find_newline(line) == -1)
 	{
-		line = get_line_from_buffer(line, fd);
+		line = get_line_from_buffer(line, &fd);
 		if (line == NULL)
 			return (NULL);
-		else if (line == 0)
+		else if (fd == -1)
 			break ;
 	}
 	first_line = get_first_line(line);

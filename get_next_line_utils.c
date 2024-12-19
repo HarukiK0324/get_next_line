@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hkasamat <hkasamat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: haruki <haruki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:53:16 by haruki            #+#    #+#             */
-/*   Updated: 2024/12/17 21:08:14 by hkasamat         ###   ########.fr       */
+/*   Updated: 2024/12/19 15:44:24 by haruki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(char *s)
+int	ft_strlen(char *s)
 {
-	size_t	len;
+	int	len;
 
 	len = 0;
 	if (s == NULL)
@@ -44,12 +44,11 @@ char	*ft_strjoin(char *s1, char *s2)
 	index = 0;
 	while (s2[index] != '\0')
 	{
-		ptr[i] = s2[index];
-		i++;
-		index++;
+		ptr[i++] = s2[index++];
 	}
 	ptr[i] = '\0';
 	free(s1);
+	free(s2);
 	return (ptr);
 }
 
