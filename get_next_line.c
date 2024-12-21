@@ -6,7 +6,7 @@
 /*   By: haruki <haruki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:53:20 by haruki            #+#    #+#             */
-/*   Updated: 2024/12/19 15:44:27 by haruki           ###   ########.fr       */
+/*   Updated: 2024/12/21 18:23:42 by haruki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,22 @@
 char	*get_line_from_buffer(char *line, int *fd)
 {
 	char	*buffer;
-	int		result;
+	int		bytes_read;
 
-	buffer = (char *)malloc(BUFFER_SIZE + 1);
+	buffer = malloc(BUFFER_SIZE + 1);
 	if (buffer == NULL)
 		return (NULL);
-	result = read(*fd, buffer, BUFFER_SIZE);
-	if (result < 0)
+	bytes_read = read(*fd, buffer, BUFFER_SIZE);
+	if (bytes_read <= 0)
 	{
 		free(buffer);
-		return (NULL);
-	}
-	else if (result == 0)
-	{
-		free(buffer);
-		if (line == NULL)
-			return (NULL);
-		*fd = -1;
+		if (bytes_read == 0)
+			*fd = -1;
 		return (line);
 	}
-	buffer[result] = '\0';
+	buffer[bytes_read] = '\0';
 	line = ft_strjoin(line, buffer);
-	if (line == NULL)
-		return (NULL);
+	free(buffer);
 	return (line);
 }
 
@@ -45,9 +38,9 @@ int	find_newline(char *line)
 {
 	int	i;
 
+	i = 0;
 	if (line == NULL)
 		return (-1);
-	i = 0;
 	while (line[i] != '\0')
 	{
 		if (line[i] == '\n')
@@ -63,46 +56,50 @@ char	*get_first_line(char *line)
 	char	*first_line;
 
 	i = 0;
+	if (line == NULL || line[0] == '\0')
+		return (NULL);
 	while (line[i] != '\0' && line[i] != '\n')
 		i++;
-	if (line[i] == '\0')
-		return (ft_strdup(line));
-	else if ((line[i] == '\n' && line[i + 1] == '\0'))
-		return (ft_strdup(line));
-	first_line = (char *)malloc(sizeof(char) * (i + 2));
+	if (line[i] == '\n')
+		i++;
+	first_line = malloc(i + 1);
 	if (first_line == NULL)
 		return (NULL);
 	i = 0;
-	while (line[i] != '\n')
+	while (line[i] != '\0' && line[i] != '\n')
 	{
 		first_line[i] = line[i];
 		i++;
 	}
-	first_line[i] = '\n';
-	first_line[i + 1] = '\0';
+	if (line[i] == '\n')
+		first_line[i++] = '\n';
+	first_line[i] = '\0';
 	return (first_line);
 }
 
 char	*update_line(char *line)
 {
-	char	*new_line;
 	int		i;
 	int		j;
+	char	*new_line;
 
 	i = 0;
 	j = 0;
-	while (line[i] != '\n')
+	if (line == NULL || line[0] == '\0')
+		return (NULL);
+	while (line[i] != '\0' && line[i] != '\n')
 		i++;
+	if (line[i] == '\0')
+	{
+		free(line);
+		return (NULL);
+	}
 	i++;
-	new_line = (char *)malloc(ft_strlen(line) - i + 1);
+	new_line = malloc(ft_strlen(line) - i + 1);
 	if (new_line == NULL)
 		return (NULL);
-	while (line[i] != '\0')
-	{
-		new_line[j] = line[i];
-		i++;
-		j++;
-	}
+	while (line[i])
+		new_line[j++] = line[i++];
 	new_line[j] = '\0';
 	free(line);
 	return (new_line);
@@ -120,16 +117,10 @@ char	*get_next_line(int fd)
 		line = get_line_from_buffer(line, &fd);
 		if (line == NULL)
 			return (NULL);
-		else if (fd == -1)
+		if (fd == -1)
 			break ;
 	}
 	first_line = get_first_line(line);
-	if (ft_strlen(first_line) == ft_strlen(line))
-	{
-		free(line);
-		line = NULL;
-	}
-	else
-		line = update_line(line);
+	line = update_line(line);
 	return (first_line);
 }

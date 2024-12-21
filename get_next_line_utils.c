@@ -6,7 +6,7 @@
 /*   By: haruki <haruki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:53:16 by haruki            #+#    #+#             */
-/*   Updated: 2024/12/20 10:02:31 by haruki           ###   ########.fr       */
+/*   Updated: 2024/12/21 18:24:28 by haruki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 int	ft_strlen(char *s)
 {
-	int	len;
+	int	len = 0;
 
-	len = 0;
 	if (s == NULL)
 		return (0);
 	while (s[len] != '\0')
@@ -26,46 +25,24 @@ int	ft_strlen(char *s)
 
 char	*ft_strjoin(char *s1, char *s2)
 {
-	char	*ptr;
-	int		i;
-	int		index;
+	char	*result;
+	int		i = 0, j = 0;
 
-	if (s1 == NULL)
-		return (ft_strdup(s2));
-	i = 0;
-	ptr = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (ptr == NULL)
+	if (s1 == NULL && s2 == NULL)
 		return (NULL);
-	while (s1[i] != '\0')
-	{
-		ptr[i] = s1[i];
-		i++;
-	}
-	index = 0;
-	while (s2[index] != '\0')
-	{
-		ptr[i++] = s2[index++];
-	}
-	ptr[i] = '\0';
+	result = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (result == NULL)
+		return (NULL);
+	if (s1 != NULL)
+		while (s1[i] != '\0')
+		{
+			result[i] = s1[i];
+			i++;
+		}
+	if (s2 != NULL)
+		while (s2[j] != '\0')
+			result[i++] = s2[j++];
+	result[i] = '\0';
 	free(s1);
-	free(s2);
-	return (ptr);
-}
-
-char	*ft_strdup(char *s)
-{
-	char	*ptr;
-	int		i;
-
-	i = 0;
-	ptr = malloc(ft_strlen(s) + 1);
-	if (ptr == NULL)
-		return (NULL);
-	while (s[i] != '\0')
-	{
-		ptr[i] = s[i];
-		i++;
-	}
-	ptr[i] = '\0';
-	return (ptr);
+	return (result);
 }
