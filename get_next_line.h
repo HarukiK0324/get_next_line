@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: haruki <haruki@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hkasamat <hkasamat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:53:13 by haruki            #+#    #+#             */
-/*   Updated: 2025/01/09 16:47:21 by haruki           ###   ########.fr       */
+/*   Updated: 2025/01/09 20:07:25 by hkasamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*ft_strjoin(char *line, char *buffer);
 char	*get_line_from_buffer(char *line, int *fd);
 int		find_newline(char *line);
 char	*get_first_line(char *line);
-char	*update_line(char *first_line, char **line);
+char	*update_line(char *line, char **first_line);
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1
