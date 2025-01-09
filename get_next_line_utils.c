@@ -6,7 +6,7 @@
 /*   By: hkasamat <hkasamat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:53:16 by haruki            #+#    #+#             */
-/*   Updated: 2025/01/09 20:14:25 by hkasamat         ###   ########.fr       */
+/*   Updated: 2025/01/09 20:19:12 by hkasamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,11 @@ char	*get_first_line(char *line)
 		i++;
 	}
 	if (line[i] == '\n')
+	{
 		first_line[i] = '\n';
-	first_line[i + 1] = '\0';
+		i++;
+	}
+	first_line[i] = '\0';
 	return (first_line);
 }
 
