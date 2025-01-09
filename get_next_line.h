@@ -6,7 +6,7 @@
 /*   By: haruki <haruki@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:53:13 by haruki            #+#    #+#             */
-/*   Updated: 2024/12/21 18:57:36 by haruki           ###   ########.fr       */
+/*   Updated: 2025/01/09 16:47:21 by haruki           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,12 @@
 # include <unistd.h>
 
 char	*get_next_line(int fd);
-int find_newline(char *line);
+int		ft_strlen(char *s);
+char	*ft_strjoin(char *line, char *buffer);
+char	*get_line_from_buffer(char *line, int *fd);
+int		find_newline(char *line);
+char	*get_first_line(char *line);
+char	*update_line(char *first_line, char **line);
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1
